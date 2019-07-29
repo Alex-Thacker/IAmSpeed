@@ -30,3 +30,13 @@ C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.
 C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\IAmSpeed.dll
 C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\IAmSpeed.pdb
 C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\IAmSpeed.csproj.CopyComplete
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\Account\Register.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\Account\_ViewImports.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\_ViewImports.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\Account\Login.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\Segments\Create.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\Segments\Delete.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\Segments\Details.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\Segments\Edit.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\Segments\Index.g.cshtml.cs
