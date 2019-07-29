@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IAmSpeed.Models
 {
-    public class Section
+    public class Segment
     {
         public int Id { get; set;  }
         public string Name { get; set; }
