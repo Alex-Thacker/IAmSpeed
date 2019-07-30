@@ -20,14 +20,24 @@ namespace IAmSpeed.Controllers
         }
 
         // GET: Segments
-        public async Task<IActionResult> Index(string gameName)
+        public async Task<IActionResult> Index(string gameName, string offset)
         {
             ViewData["gameName"] = gameName; 
+
+            var url = $"https://www.speedrun.com/api/v1/games?name={gameName}";
+
             if (!String.IsNullOrEmpty(gameName))
             {
             ApiHelper.InitializeClient();
-            var gameData = await TestClass.LoadData(gameName);
+            var gameData = await TestClass.LoadData(url);
                 return View(gameData);
+            }
+            if (!String.IsNullOrEmpty(offset))
+            {
+                url = offset;
+                ApiHelper.InitializeClient();
+                var offsetData = await TestClass.LoadData(url);
+                return View(offsetData);
             }
             else
             {
@@ -38,23 +48,24 @@ namespace IAmSpeed.Controllers
         }
         
         // GET: Segments/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var segment = await _context.Segments
-                .Include(s => s.User)
-                .Include(s => s.Game)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (segment == null)
+            var url = $"https://www.speedrun.com/api/v1/games/{id}";
+
+            ApiHelper.InitializeClient();
+            var singleGameData = await TestClass.LoadSingleData(url);
+
+            if (singleGameData == null)
             {
                 return NotFound();
             }
 
-            return View(segment);
+            return View(singleGameData);
         }
 
         // GET: Segments/Create

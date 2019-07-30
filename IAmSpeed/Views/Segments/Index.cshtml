@@ -1,8 +1,56 @@
-﻿@model IAmSpeed.Models.Rootobject
+﻿@model IAmSpeed.Models.ListGameBase
 
 @{
     ViewData["Title"] = "Index";
 }
+
+
+<h1>First lets pick a game to run</h1>
+<form asp-action="Index" method="get">
+    <input type="text" name="gameName" value="@ViewData["gameName"]" />
+    <input type="submit" value="Search" class="btn btn-default" />
+</form>
+
+
+@if (Model != null)
+{
+
+
+    @*<p> @Html.DisplayFor(model => model.names.international) </p> *@
+
+   
+    <ol start=@Model.pagination.offsetPlus>
+        @foreach (var item in Model.data)
+        {
+            <li>@Html.DisplayFor(model => item.names.international)</li>
+           
+                    <a asp-action="Details" asp-route-id="@item.id">Use This Game  |</a>
+                    <a asp-action="Details" asp-route-id="@item.id">Details</a>
+              
+        }
+    </ol>
+    
+
+
+
+
+    @foreach (var item in Model.pagination.links)
+    {
+<form asp-action="Index" method="get">
+    @*<input type="submit" value=@Html.DisplayFor(model => item.rel) class="btn btn-default" />*@
+    <input type="hidden" name="offset" value="@Html.DisplayFor(model => item.uri)">
+    <input type="submit" value="@Html.DisplayFor(model => item.rel)" class="btn btn-default">
+</form>
+    }
+
+}
+
+
+
+
+
+
+
 
 
 
@@ -83,23 +131,3 @@
     </table> *@
 
 
-
-<h1>First lets pick a game to run</h1>
-<form asp-action="Index" method="get">
-    <input type="text" name="gameName" value="@ViewData["gameName"]" />
-    <input type="submit" value="Search" class="btn btn-default" />
-</form>
-
-
-@if (ViewData["gameName"] != null)
-{
-
-
-    @*<p> @Html.DisplayFor(model => model.names.international) </p> *@
-
-    @foreach (var item in Model.data)
-    {
-        @Html.DisplayFor(model => item.names.international)
-    }
-
-}

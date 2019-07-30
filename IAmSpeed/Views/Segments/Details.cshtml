@@ -1,4 +1,4 @@
-﻿@model IAmSpeed.Models.Segment
+﻿@model IAmSpeed.Models.SingleGameBase
 
 @{
     ViewData["Title"] = "Details";
@@ -6,6 +6,12 @@
 
 <h1>Details</h1>
 
+<p>@Model.data.names.international</p>
+<p>@Model.data.released</p>
+<img src="@Model.data.assets.coverlarge.uri"/>
+
+
+@*
 <div>
     <h4>Segment</h4>
     <hr />
@@ -70,3 +76,4 @@
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+    *@
