@@ -7,17 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IAmSpeed.Data;
 using IAmSpeed.Models;
+using Microsoft.AspNetCore.Identity;
+using IAmSpeed.Models.GameViewModels;
 
 namespace IAmSpeed.Controllers
 {
     public class SegmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public SegmentsController(ApplicationDbContext context)
+        public SegmentsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Segments
         public async Task<IActionResult> Index(string gameName, string offset)
@@ -69,11 +75,53 @@ namespace IAmSpeed.Controllers
         }
 
         // GET: Segments/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(string id)
         {
+
+            var gameCheck = await _context.Games
+                .FirstOrDefaultAsync(g => g.GameIdFromAPI == id);
+
+            if(gameCheck == null)
+            {
+            var currentUser = await GetCurrentUserAsync();
+
+            var url = $"https://www.speedrun.com/api/v1/games/{id}";
+
+            ApiHelper.InitializeClient();
+            var singleGameData = await TestClass.LoadSingleData(url);
+
+            Game game = new Game();
+            game.GameIdFromAPI = singleGameData.data.id;
+            game.Name = singleGameData.data.names.international;
+            game.Picture = singleGameData.data.assets.covermedium.uri;
+            game.ReleaseDate = singleGameData.data.released;
+            game.UserId = currentUser.Id;
+
+            _context.Add(game);
+            await _context.SaveChangesAsync();
+
+                GameSegmentViewModel gameSegment = new GameSegmentViewModel();
+
+                gameSegment.Game = game; 
+
+            return View(gameSegment);
+
+            } else
+            {
+
+
+
             ViewData["GameId"] = new SelectList(_context.Games, "Id", "Id");
             ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
-            return View();
+
+                GameSegmentViewModel gameSegment = new GameSegmentViewModel();
+                gameSegment.Game = gameCheck;
+
+                return View(gameSegment);
+            }
+
+           
+
         }
 
         // POST: Segments/Create
@@ -81,17 +129,23 @@ namespace IAmSpeed.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,VideoLink,Notes,PBTime,RNG,Category,UserId,GameId")] Segment segment)
+        public async Task<IActionResult> Create(GameSegmentViewModel gameSegment)
         {
+            GameSegmentViewModel createSegment = new GameSegmentViewModel();
+
+            createSegment.Segment = gameSegment.Segment;
+
+            ModelState.Remove("GameId");
+            ModelState.Remove("UserId");
             if (ModelState.IsValid)
             {
-                _context.Add(segment);
+                _context.Add(createSegment.Segment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GameId"] = new SelectList(_context.Games, "Id", "Id", segment.GameId);
-            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", segment.UserId);
-            return View(segment);
+            //ViewData["GameId"] = new SelectList(_context.Games, "Id", "Id", segment.GameId);
+            //ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", segment.UserId);
+            return View(createSegment.Segment);
         }
 
         // GET: Segments/Edit/5

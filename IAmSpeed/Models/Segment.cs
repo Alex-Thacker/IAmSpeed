@@ -14,7 +14,9 @@ namespace IAmSpeed.Models
         [Display(Name = "Video Link")]
         public string VideoLink { get; set; }
         public string Notes { get; set;  }
-        public DateTime PBTime { get; set; }
+        [Display(Name = "Personal Best Time")]
+        public string PBTime { get; set; }
+        [Display(Name = "Random Number Generator (RNG)")]
         public string RNG { get; set; }
         public string Category { get; set; }
         public string UserId { get; set;  }

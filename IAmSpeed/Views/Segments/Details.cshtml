@@ -4,12 +4,11 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
-<p>@Model.data.names.international</p>
-<p>@Model.data.released</p>
+<h1>@Model.data.names.international</h1>
 <img src="@Model.data.assets.coverlarge.uri"/>
-
+<label><strong>Year Released: </strong></label>
+<span>@Model.data.released</span>
+<a asp-action="Create" asp-route-id="@Model.data.id">Use This Game</a>
 
 @*
 <div>
