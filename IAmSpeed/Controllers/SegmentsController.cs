@@ -131,12 +131,17 @@ namespace IAmSpeed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(GameSegmentViewModel gameSegment)
         {
+            var currentUser = await GetCurrentUserAsync();
+
             GameSegmentViewModel createSegment = new GameSegmentViewModel();
 
             createSegment.Segment = gameSegment.Segment;
 
-            ModelState.Remove("GameId");
-            ModelState.Remove("UserId");
+            createSegment.Segment.GameId = gameSegment.Game.Id;
+
+            createSegment.Segment.UserId = currentUser.Id;
+
+            
             if (ModelState.IsValid)
             {
                 _context.Add(createSegment.Segment);
