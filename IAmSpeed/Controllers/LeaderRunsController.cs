@@ -49,19 +49,10 @@ namespace IAmSpeed.Controllers
         // GET: LeaderRuns/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var url = $"https://www.speedrun.com/api/v1/categories/{id}/records?top=10";
+            var records = await TestClass.GetRecords(url);
 
-            var leaderRun = await _context.LeaderRun
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (leaderRun == null)
-            {
-                return NotFound();
-            }
-
-            return View(leaderRun);
+            return View(records);
         }
 
 
@@ -110,17 +101,17 @@ namespace IAmSpeed.Controllers
         // GET: LeaderRuns/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var leaderRun = await _context.LeaderRun.FindAsync(id);
-            if (leaderRun == null)
-            {
-                return NotFound();
-            }
-            return View(leaderRun);
+            //var leaderRun = await _context.LeaderRun.FindAsync(id);
+            //if (leaderRun == null)
+            //{
+            //    return NotFound();
+            //}
+            return View();
         }
 
         // POST: LeaderRuns/Edit/5
@@ -130,50 +121,50 @@ namespace IAmSpeed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("id,weblink,game,category,comment,date,submitted")] LeaderRun leaderRun)
         {
-            if (id != leaderRun.id)
-            {
-                return NotFound();
-            }
+            //if (id != leaderRun.id)
+            //{
+            //    return NotFound();
+            //}
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(leaderRun);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LeaderRunExists(leaderRun.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(leaderRun);
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        _context.Update(leaderRun);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!LeaderRunExists(leaderRun.id))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
+            //    return RedirectToAction(nameof(Index));
+            //}
+            return View();
         }
 
         // GET: LeaderRuns/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var leaderRun = await _context.LeaderRun
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (leaderRun == null)
-            {
-                return NotFound();
-            }
+            //var leaderRun = await _context.LeaderRun
+            //    .FirstOrDefaultAsync(m => m.id == id);
+            //if (leaderRun == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(leaderRun);
+            return View();
         }
 
         // POST: LeaderRuns/Delete/5

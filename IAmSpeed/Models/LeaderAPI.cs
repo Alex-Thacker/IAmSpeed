@@ -60,7 +60,7 @@ namespace IAmSpeed.Models
         public Status status { get; set; }
         public Player[] players { get; set; }
         public string date { get; set; }
-        public DateTime submitted { get; set; }
+        //public DateTime submitted { get; set; }
         public Times times { get; set; }
         public System system { get; set; }
         //public object splits { get; set; }
@@ -84,16 +84,25 @@ namespace IAmSpeed.Models
         public int id { get; set;  }
         public string status { get; set; }
         public string examiner { get; set; }
-        public DateTime verifydate { get; set; }
+        //public DateTime verifydate { get; set; }
     }
 
     public class Times
     {
         public int id { get; set; }
         public string primary { get; set; }
-        public int primary_t { get; set; }
+        public double primary_t { get; set; }
+        public TimeSpan timeInMinutes
+        {
+            get
+            {
+                TimeSpan t = TimeSpan.FromSeconds(primary_t);
+                return t; 
+
+            }
+        }
         public string realtime { get; set; }
-        public int realtime_t { get; set; }
+        //public int realtime_t { get; set; }
         //public object realtime_noloads { get; set; }
         public int realtime_noloads_t { get; set; }
         //public object ingame { get; set; }

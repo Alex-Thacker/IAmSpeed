@@ -1,4 +1,6 @@
-﻿@model IAmSpeed.Models.LeaderRun
+﻿@*Details for LeaderBoard*@
+
+@model IAmSpeed.Models.LeaderBase
 
 @{
     ViewData["Title"] = "Details";
@@ -6,6 +8,16 @@
 
 <h1>Details</h1>
 
+@foreach(var r in Model.data)
+{
+    foreach(var p in r.runs)
+    {
+        <p>@p.place</p>
+        <p>@p.run.times.timeInMinutes</p>
+    }
+}
+
+@*
 <div>
     <h4>LeaderRun</h4>
     <hr />
@@ -48,7 +60,9 @@
         </dd>
     </dl>
 </div>
+    
 <div>
     <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+    *@

@@ -18,6 +18,10 @@
     {
     <p><strong>Rules: </strong>@c.rules</p>
 
+    <div>
+        <a asp-action="Details" asp-route-id="@c.id">View Leaderboard for this Category</a>
+    </div>
+
     } else
     {
         <p>No Rules are set for this Category</p>
