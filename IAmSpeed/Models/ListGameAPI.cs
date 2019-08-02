@@ -11,6 +11,7 @@ namespace IAmSpeed.Models
     {
         public Datum[] data { get; set; }
         public Pagination pagination { get; set; }
+        public List<Game> games { get; set; } = new List<Game>();
     }
 
     public class SingleGameBase
@@ -159,7 +160,9 @@ namespace IAmSpeed.Models
     public class Assets
     {
         public Logo logo { get; set; }
+        [DataMember(Name = "cover-tiny")]
         public CoverTiny covertiny { get; set; }
+        [DataMember(Name = "cover-small")]
         public CoverSmall coversmall { get; set; }
         [DataMember(Name = "cover-medium")]
         public CoverMedium covermedium { get; set; }

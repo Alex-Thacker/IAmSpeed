@@ -62,5 +62,39 @@ namespace IAmSpeed.Models
                 }
             }
         }
+
+        public static async Task<CategoriesBase> GetCategories(string url)
+        {
+            using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    CategoriesBase rootobject = await response.Content.ReadAsAsync<CategoriesBase>();
+
+                    return rootobject;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public static async Task<LeaderBase> GetRecords(string url)
+        {
+            using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    LeaderBase rootobject = await response.Content.ReadAsAsync<LeaderBase>();
+
+                    return rootobject;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

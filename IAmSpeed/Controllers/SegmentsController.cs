@@ -28,14 +28,14 @@ namespace IAmSpeed.Controllers
         // GET: Segments
         public async Task<IActionResult> Index(string gameName, string offset)
         {
-            ViewData["gameName"] = gameName; 
+            ViewData["gameName"] = gameName;
 
             var url = $"https://www.speedrun.com/api/v1/games?name={gameName}";
 
             if (!String.IsNullOrEmpty(gameName))
             {
-            ApiHelper.InitializeClient();
-            var gameData = await TestClass.LoadData(url);
+                ApiHelper.InitializeClient();
+                var gameData = await TestClass.LoadData(url);
                 return View(gameData);
             }
             if (!String.IsNullOrEmpty(offset))
@@ -47,11 +47,44 @@ namespace IAmSpeed.Controllers
             }
             else
             {
-                return View();
+                var currentUser = await GetCurrentUserAsync();
+
+                var userCurrentGameList = _context.Games
+                    .Where(g => g.UserId == currentUser.Id);
+
+                ListGameBase listGameBase = new ListGameBase();
+
+                foreach(var ucgl in userCurrentGameList)
+                {
+                    listGameBase.games.Add(ucgl); 
+                }
+
+                //foreach (var lg in userCurrentGameList)
+                //{
+                //    listGameBase.games.Add(lg); 
+                //}
+                
+
+                //for (int i = 0; i < 5; i++)
+                //{
+                //    listGameBase.games[i] = userCurrentGameList.First();
+                //}
+
+                return View(listGameBase);
+
+                //for (int i = 0; i < myArray.Length; i++)
+                //{
+                //    if (myArray[i] == null)
+                //    {
+                //        myArray[i] = newValue;
+                //        break;
+                //    }
+                //}
+                //var applicationDbContext = _context.Segments.Include(s => s.Game).Include(s => s.User);
+                //return View(await applicationDbContext.ToListAsync());
             }
-            //var applicationDbContext = _context.Segments.Include(s => s.Game).Include(s => s.User);
-            //return View(await applicationDbContext.ToListAsync());
         }
+    
         
         // GET: Segments/Details/5
         public async Task<IActionResult> Details(string id)
@@ -77,13 +110,14 @@ namespace IAmSpeed.Controllers
         // GET: Segments/Create
         public async Task<IActionResult> Create(string id)
         {
+            var currentUser = await GetCurrentUserAsync();
 
             var gameCheck = await _context.Games
+                .Where(g => g.UserId == currentUser.Id)
                 .FirstOrDefaultAsync(g => g.GameIdFromAPI == id);
 
             if(gameCheck == null)
             {
-            var currentUser = await GetCurrentUserAsync();
 
             var url = $"https://www.speedrun.com/api/v1/games/{id}";
 
