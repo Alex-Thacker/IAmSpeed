@@ -9,6 +9,7 @@ using IAmSpeed.Data;
 using IAmSpeed.Models;
 using Microsoft.AspNetCore.Identity;
 using IAmSpeed.Models.GameViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IAmSpeed.Controllers
 {
@@ -26,6 +27,7 @@ namespace IAmSpeed.Controllers
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Segments
+        [Authorize]
         public async Task<IActionResult> Index(string gameName, string offset)
         {
             ViewData["gameName"] = gameName;
@@ -48,6 +50,7 @@ namespace IAmSpeed.Controllers
             else
             {
                 var currentUser = await GetCurrentUserAsync();
+
 
                 var userCurrentGameList = _context.Games
                     .Where(g => g.UserId == currentUser.Id);
@@ -84,9 +87,10 @@ namespace IAmSpeed.Controllers
                 //return View(await applicationDbContext.ToListAsync());
             }
         }
-    
-        
+
+
         // GET: Segments/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -108,6 +112,7 @@ namespace IAmSpeed.Controllers
         }
 
         // GET: Segments/Create
+        [Authorize]
         public async Task<IActionResult> Create(string id)
         {
             var currentUser = await GetCurrentUserAsync();
@@ -163,6 +168,7 @@ namespace IAmSpeed.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create(GameSegmentViewModel gameSegment)
         {
             var currentUser = await GetCurrentUserAsync();
@@ -188,6 +194,7 @@ namespace IAmSpeed.Controllers
         }
 
         // GET: Segments/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -210,6 +217,7 @@ namespace IAmSpeed.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,VideoLink,Notes,PBTime,RNG,Category,UserId,GameId")] Segment segment)
         {
             if (id != segment.Id)
@@ -243,6 +251,7 @@ namespace IAmSpeed.Controllers
         }
 
         // GET: Segments/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

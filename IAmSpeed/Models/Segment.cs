@@ -9,6 +9,7 @@ namespace IAmSpeed.Models
     public class Segment
     {
         public int Id { get; set;  }
+        public int? OrginId { get; set;  }
         public string Name { get; set; }
         public string Description { get; set;  }
         [Display(Name = "Video Link")]

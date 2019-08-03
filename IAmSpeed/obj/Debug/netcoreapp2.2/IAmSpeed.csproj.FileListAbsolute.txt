@@ -45,3 +45,9 @@ C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.
 C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\LeaderRuns\Details.g.cshtml.cs
 C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\LeaderRuns\Edit.g.cshtml.cs
 C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\LeaderRuns\Index.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\MySegment\Create.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\MySegment\Delete.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\MySegment\Details.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\MySegment\Edit.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\MySegment\Index.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\MySegment\GameSelect.g.cshtml.cs

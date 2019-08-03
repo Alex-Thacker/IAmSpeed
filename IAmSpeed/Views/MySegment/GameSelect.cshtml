@@ -1,0 +1,20 @@
+﻿@*My Segment Controller for GameSelect*@
+
+@model IEnumerable<IAmSpeed.Models.Game>
+
+@{
+    ViewData["Title"] = "GameSelect";
+}
+
+<h1>My Games</h1>
+<hr />
+
+@foreach (var g in Model)
+{
+    <h4>@g.Name</h4>
+    <p>Release Date: @g.ReleaseDate</p>
+    <img src="@g.Picture" />
+
+    <a asp-action="Index" asp-route-id="@g.Id">View Segments for this game</a>
+    <hr />
+}
