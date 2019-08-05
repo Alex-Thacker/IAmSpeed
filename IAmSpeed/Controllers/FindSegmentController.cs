@@ -7,59 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IAmSpeed.Data;
 using IAmSpeed.Models;
-using Microsoft.AspNetCore.Identity;
-using IAmSpeed.Models.GameViewModels;
 
 namespace IAmSpeed.Controllers
 {
-    public class MySegmentController : Controller
+    public class FindSegmentController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public Task GetCurrentUserAsyc { get; private set; }
-
-        public MySegmentController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public FindSegmentController(ApplicationDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
-        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
-
-        //Gets games for current user to display, this will sort segments user can view by games. 
-        public async Task<IActionResult> GameSelect()
+        // GET: FindSegment
+        public async Task<IActionResult> Index()
         {
-            var currentUser = await GetCurrentUserAsync();
-
-            var game = _context.Games
-                .Where(g => g.UserId == currentUser.Id);
-
-            return View(game);
+            var applicationDbContext = _context.Segments.Include(s => s.Game).Include(s => s.User);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: MySegment
-        public async Task<IActionResult> Index(int id)
-        {
-            GameSegmentViewModel gameSegment = new GameSegmentViewModel(); 
-
-            var segmentsByGame = _context.Segments
-                .Where(s => s.GameId == id).ToList();
-
-            gameSegment.segmentsList = segmentsByGame;
-
-            var currentGame = await _context.Games
-                .FirstOrDefaultAsync(g => g.Id == id);
-
-            if(currentGame != null)
-            {
-            gameSegment.Game = currentGame; 
-            }
-            //var applicationDbContext = _context.Segments.Include(s => s.Game).Include(s => s.User);
-            return View(gameSegment);
-        }
-
-        // GET: MySegment/Details/5
+        // GET: FindSegment/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -79,7 +46,7 @@ namespace IAmSpeed.Controllers
             return View(segment);
         }
 
-        // GET: MySegment/Create
+        // GET: FindSegment/Create
         public IActionResult Create()
         {
             ViewData["GameId"] = new SelectList(_context.Games, "Id", "Id");
@@ -87,7 +54,7 @@ namespace IAmSpeed.Controllers
             return View();
         }
 
-        // POST: MySegment/Create
+        // POST: FindSegment/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -105,7 +72,7 @@ namespace IAmSpeed.Controllers
             return View(segment);
         }
 
-        // GET: MySegment/Edit/5
+        // GET: FindSegment/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -123,7 +90,7 @@ namespace IAmSpeed.Controllers
             return View(segment);
         }
 
-        // POST: MySegment/Edit/5
+        // POST: FindSegment/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -139,11 +106,6 @@ namespace IAmSpeed.Controllers
             {
                 try
                 {
-                    //var segmentExtra = _context.Segments
-                    //    .FirstOrDefault(s => s.Id == id);
-
-                    //segment.GameId = segmentExtra.GameId;
-                    //segment.UserId = segmentExtra.UserId;
                     _context.Update(segment);
                     await _context.SaveChangesAsync();
                 }
@@ -158,15 +120,14 @@ namespace IAmSpeed.Controllers
                         throw;
                     }
                 }
-                //return RedirectToAction(nameof(Index));
-                return Redirect($"http://localhost:5000/MySegment/Index/{segment.GameId}");
+                return RedirectToAction(nameof(Index));
             }
             ViewData["GameId"] = new SelectList(_context.Games, "Id", "Id", segment.GameId);
             ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", segment.UserId);
             return View(segment);
         }
 
-        // GET: MySegment/Delete/5
+        // GET: FindSegment/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -186,7 +147,7 @@ namespace IAmSpeed.Controllers
             return View(segment);
         }
 
-        // POST: MySegment/Delete/5
+        // POST: FindSegment/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -194,8 +155,7 @@ namespace IAmSpeed.Controllers
             var segment = await _context.Segments.FindAsync(id);
             _context.Segments.Remove(segment);
             await _context.SaveChangesAsync();
-            //return RedirectToAction(nameof(Index));
-            return Redirect($"http://localhost:5000/MySegment/Index/{segment.GameId}");
+            return RedirectToAction(nameof(Index));
         }
 
         private bool SegmentExists(int id)

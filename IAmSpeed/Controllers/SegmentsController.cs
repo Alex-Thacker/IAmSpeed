@@ -181,12 +181,19 @@ namespace IAmSpeed.Controllers
 
             createSegment.Segment.UserId = currentUser.Id;
 
+            //createSegment.Segment.OrginId = gameSegment.Segment.Id;
+
             
             if (ModelState.IsValid)
             {
                 _context.Add(createSegment.Segment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                var setOrgin = _context.Segments
+
+                return Redirect($"http://localhost:5000/MySegment/Index/{gameSegment.Game.Id}");
+
+
             }
             //ViewData["GameId"] = new SelectList(_context.Games, "Id", "Id", segment.GameId);
             //ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", segment.UserId);
@@ -259,16 +266,24 @@ namespace IAmSpeed.Controllers
                 return NotFound();
             }
 
-            var segment = await _context.Segments
-                .Include(s => s.Game)
-                .Include(s => s.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (segment == null)
+            GameSegmentViewModel gameSegment = new GameSegmentViewModel();
+
+            var segments = _context.Segments
+                .Where(s => s.GameId == id).ToList();
+
+            gameSegment.segmentsList = segments;
+
+            var game = await _context.Games
+                .FirstOrDefaultAsync(g => g.Id == id);
+
+            gameSegment.Game = game; 
+
+            if (game == null)
             {
                 return NotFound();
             }
 
-            return View(segment);
+            return View(gameSegment);
         }
 
         // POST: Segments/Delete/5
@@ -276,9 +291,13 @@ namespace IAmSpeed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var segment = await _context.Segments.FindAsync(id);
-            _context.Segments.Remove(segment);
-            await _context.SaveChangesAsync();
+            //var segment = await _context.Segments.FindAsync(id);
+            //_context.Segments.Remove(segment);
+            //await _context.SaveChangesAsync();
+
+            var game = await _context.Games.FindAsync(id);
+            _context.Games.Remove(game);
+            await _context.SaveChangesAsync(); 
             return RedirectToAction(nameof(Index));
         }
 

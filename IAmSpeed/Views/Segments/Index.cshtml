@@ -2,6 +2,8 @@
 
 @model IAmSpeed.Models.ListGameBase
 
+@*Page lists games you currently saved, lets you search for new games. based on Segments controller*@
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -29,9 +31,14 @@
 
 
         <div>
-        <a asp-action="Create" asp-controller="Segments" asp-for="@item.Name" asp-route-id="@item.GameIdFromAPI">Use This Game</a>
-            </div>
-
+            <a asp-action="Create" asp-controller="Segments" asp-for="@item.Name" asp-route-id="@item.GameIdFromAPI">Create New Segment</a>
+        </div>
+        <div>
+            <a asp-action="Index" asp-controller="MySegment" asp-route-id="@item.Id">View Current Segments</a>
+        </div>
+        <div>
+            <a asp-action="Delete" asp-controller="Segments" asp-for="@item.Name" asp-route-id="@item.Id">Remove Game</a>
+        </div>
         <hr />
     }
 }
