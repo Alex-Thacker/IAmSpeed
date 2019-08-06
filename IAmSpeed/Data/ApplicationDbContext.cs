@@ -39,6 +39,8 @@ namespace IAmSpeed.Data
             modelBuilder.Entity<ApplicationUser>().HasData(user);
         }
 
+        public DbSet<IAmSpeed.Models.LeaderRun> LeaderRun { get; set; }
+
 
     }
 }
