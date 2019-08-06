@@ -21,6 +21,7 @@ namespace IAmSpeed.Models
         public string RNG { get; set; }
         public string Category { get; set; }
         public string UserId { get; set;  }
+        public string GameIdFromAPI { get; set;  }
         public ApplicationUser User { get; set;  }
         public int GameId { get; set;  }
         public Game Game { get; set;  }

@@ -10,5 +10,6 @@ namespace IAmSpeed.Models.GameViewModels
         public Game Game { get; set;  }
         public Segment Segment { get; set;  }
         public List<Segment> segmentsList { get; set; } = new List<Segment>(); 
+        public ApplicationUser User { get; set;  }
     }
 }

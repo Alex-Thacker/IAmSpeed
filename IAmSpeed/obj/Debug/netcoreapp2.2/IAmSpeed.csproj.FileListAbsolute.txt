@@ -56,3 +56,4 @@ C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.
 C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\FindSegment\Details.g.cshtml.cs
 C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\FindSegment\Edit.g.cshtml.cs
 C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\FindSegment\Index.g.cshtml.cs
+C:\Users\Alex\workspace\capstoneBackEnd\IAmSpeed\IAmSpeed\obj\Debug\netcoreapp2.2\Razor\Views\FindSegment\ShowSegments.g.cshtml.cs

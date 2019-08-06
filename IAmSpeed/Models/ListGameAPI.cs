@@ -12,6 +12,7 @@ namespace IAmSpeed.Models
         public Datum[] data { get; set; }
         public Pagination pagination { get; set; }
         public List<Game> games { get; set; } = new List<Game>();
+        public ApplicationUser User { get; set;  }
     }
 
     public class SingleGameBase

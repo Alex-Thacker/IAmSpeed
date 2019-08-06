@@ -7,23 +7,154 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IAmSpeed.Data;
 using IAmSpeed.Models;
+using Microsoft.AspNetCore.Identity;
+using IAmSpeed.Models.GameViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IAmSpeed.Controllers
 {
+    [Authorize]
     public class FindSegmentController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public FindSegmentController(ApplicationDbContext context)
+        public FindSegmentController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: FindSegment
-        public async Task<IActionResult> Index()
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+       
+        public async Task<IActionResult> ShowSegmentsFromSearch(string id)
         {
-            var applicationDbContext = _context.Segments.Include(s => s.Game).Include(s => s.User);
-            return View(await applicationDbContext.ToListAsync());
+            var getCurrentUser = await GetCurrentUserAsync();
+
+            var game = _context.Games
+                .Where(g => g.UserId == getCurrentUser.Id)
+                .FirstOrDefaultAsync(g => g.GameIdFromAPI == id);
+
+            if(game.Result == null)
+            {
+                var url = $"https://www.speedrun.com/api/v1/games/{id}";
+
+                ApiHelper.InitializeClient();
+                var singleGameData = await TestClass.LoadSingleData(url);
+
+                Game newGame = new Game();
+                newGame.GameIdFromAPI = singleGameData.data.id;
+                newGame.Name = singleGameData.data.names.international;
+                newGame.Picture = singleGameData.data.assets.covermedium.uri;
+                newGame.ReleaseDate = singleGameData.data.released;
+                newGame.UserId = getCurrentUser.Id;
+
+                _context.Add(newGame);
+                await _context.SaveChangesAsync();
+
+                GameSegmentViewModel gameSegment = new GameSegmentViewModel();
+
+                gameSegment.Game = newGame;
+
+                var segmentsByGame = await _context.Segments
+                .Include(s => s.User)
+                .Where(s => s.UserId != getCurrentUser.Id)
+                .Where(s => s.GameIdFromAPI == id).ToListAsync();
+
+                gameSegment.segmentsList = segmentsByGame;
+
+                var gameById = await _context.Games
+                    .FirstOrDefaultAsync(g => g.GameIdFromAPI == id);
+
+                gameSegment.Game = gameById;
+
+                return View("ShowSegments", gameSegment);
+
+            }
+            else
+            {
+
+                GameSegmentViewModel gameSegment = new GameSegmentViewModel();
+                
+
+                var segmentsByGame = await _context.Segments
+                    .Include(s => s.User)
+                    .Where(s => s.UserId != getCurrentUser.Id)
+                    .Where(s => s.GameIdFromAPI == id).ToListAsync();
+
+                gameSegment.segmentsList = segmentsByGame;
+
+                var gameById = await _context.Games
+                    .FirstOrDefaultAsync(g => g.GameIdFromAPI == id);
+
+                gameSegment.Game = gameById;
+
+                return View("ShowSegments", gameSegment);
+            }
+
+        }
+
+        public async Task<IActionResult> ShowSegments(string GameIdFromAPI)
+        {
+            GameSegmentViewModel gameSegment = new GameSegmentViewModel();
+            var getCurrentUser = await GetCurrentUserAsync();
+
+            var segmentsByGame = await _context.Segments
+                .Include(s => s.User)
+                .Where(s => s.UserId != getCurrentUser.Id)
+                .Where(s => s.GameIdFromAPI == GameIdFromAPI).ToListAsync();
+
+            gameSegment.segmentsList = segmentsByGame;
+
+            var gameById = await _context.Games
+                .FirstOrDefaultAsync(g => g.GameIdFromAPI == GameIdFromAPI);
+
+            gameSegment.Game = gameById;
+
+            
+
+            return View(gameSegment); 
+        }
+
+
+        // GET: FindSegment
+        public async Task<IActionResult> Index(string gameName, string offset)
+        {
+            ViewData["gameName"] = gameName;
+
+            var url = $"https://www.speedrun.com/api/v1/games?name={gameName}";
+
+            if (!String.IsNullOrEmpty(gameName))
+            {
+                ApiHelper.InitializeClient();
+                var gameData = await TestClass.LoadData(url);
+                return View(gameData);
+            }
+            if (!String.IsNullOrEmpty(offset))
+            {
+                url = offset;
+                ApiHelper.InitializeClient();
+                var offsetData = await TestClass.LoadData(url);
+                return View(offsetData);
+            }
+            else
+            {
+                var currentUser = await GetCurrentUserAsync();
+
+
+                var userCurrentGameList = _context.Games
+                    .Where(g => g.UserId == currentUser.Id);
+
+                ListGameBase listGameBase = new ListGameBase();
+
+                foreach (var ucgl in userCurrentGameList)
+                {
+                    listGameBase.games.Add(ucgl);
+                }
+
+                return View(listGameBase);
+            }
         }
 
         // GET: FindSegment/Details/5
@@ -47,11 +178,33 @@ namespace IAmSpeed.Controllers
         }
 
         // GET: FindSegment/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int id)
         {
-            ViewData["GameId"] = new SelectList(_context.Games, "Id", "Id");
-            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
-            return View();
+            var getCurrentUser = await GetCurrentUserAsync();
+            var segmentToClone = await _context.Segments
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            var userSpecificGame = await _context.Games
+                .Where(g => g.UserId == getCurrentUser.Id)
+                .FirstOrDefaultAsync(g => g.GameIdFromAPI == segmentToClone.GameIdFromAPI);
+
+            Segment cloneSegment = new Segment();
+            cloneSegment.Name = segmentToClone.Name;
+            cloneSegment.Description = segmentToClone.Description;
+            cloneSegment.VideoLink = segmentToClone.VideoLink;
+            cloneSegment.Notes = segmentToClone.Notes;
+            cloneSegment.PBTime = segmentToClone.PBTime;
+            cloneSegment.RNG = segmentToClone.RNG;
+            cloneSegment.Category = segmentToClone.Category;
+            cloneSegment.UserId = getCurrentUser.Id;
+            cloneSegment.GameId = userSpecificGame.Id;
+            cloneSegment.GameIdFromAPI = segmentToClone.GameIdFromAPI;
+
+            _context.Add(cloneSegment);
+            await _context.SaveChangesAsync();
+
+
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: FindSegment/Create

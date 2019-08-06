@@ -46,11 +46,6 @@
 
 @if (Model.data != null || Model.pagination != null)
 {
-
-
-    @*<p> @Html.DisplayFor(model => model.names.international) </p> *@
-
-
     <ol start=@Model.pagination.offsetPlus>
         @foreach (var item in Model.data)
         {
@@ -62,7 +57,6 @@
             <img src="@item.assets.coversmall.uri" />
 
             <div><a asp-action="Create" asp-controller="Segments" asp-for="@item.names.international" asp-route-id="@item.id">Use This Game</a></div>
-            @*<a asp-action="Details" asp-route-id="@item.id">Details</a>*@
             <hr />
         }
     </ol>
@@ -74,111 +68,8 @@
     @foreach (var item in Model.pagination.links)
     {
         <form asp-action="Index" method="get">
-            @*<input type="submit" value=@Html.DisplayFor(model => item.rel) class="btn btn-default" />*@
             <input type="hidden" name="offset" value="@Html.DisplayFor(model => item.uri)">
             <input type="submit" value="@Html.DisplayFor(model => item.rel)" class="btn btn-default">
         </form>
     }
-
-
-    @*<form asp-action="Create" asp-controller="Segments">
-            @foreach (var item in Model.data)
-            {
-                @Html.Hidden("id", item.id)
-                @Html.Hidden("Name", item.names.international)
-                @Html.Hidden("Picture", item.assets.covermedium)
-                @Html.Hidden("ReleaseDate", item.released)
-            }
-            </form>
-        *<form asp-action="Create">
-            <input type="hidden" asp-for="@Model.data" />
-            </form>*@
-
-
 }
-
-
-
-
-
-
-
-
-
-@*<p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.VideoLink)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Notes)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PBTime)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RNG)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Category)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.User)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Game)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-    @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VideoLink)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Notes)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PBTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RNG)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Game.Id)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-    }
-        </tbody>
-    </table> *@
-
-

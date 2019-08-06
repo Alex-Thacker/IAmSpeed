@@ -62,29 +62,7 @@ namespace IAmSpeed.Controllers
                     listGameBase.games.Add(ucgl); 
                 }
 
-                //foreach (var lg in userCurrentGameList)
-                //{
-                //    listGameBase.games.Add(lg); 
-                //}
-                
-
-                //for (int i = 0; i < 5; i++)
-                //{
-                //    listGameBase.games[i] = userCurrentGameList.First();
-                //}
-
-                return View(listGameBase);
-
-                //for (int i = 0; i < myArray.Length; i++)
-                //{
-                //    if (myArray[i] == null)
-                //    {
-                //        myArray[i] = newValue;
-                //        break;
-                //    }
-                //}
-                //var applicationDbContext = _context.Segments.Include(s => s.Game).Include(s => s.User);
-                //return View(await applicationDbContext.ToListAsync());
+                return View(listGameBase);         
             }
         }
 
@@ -181,6 +159,7 @@ namespace IAmSpeed.Controllers
 
             createSegment.Segment.UserId = currentUser.Id;
 
+            createSegment.Segment.GameIdFromAPI = gameSegment.Game.GameIdFromAPI;
             //createSegment.Segment.OrginId = gameSegment.Segment.Id;
 
             
@@ -189,7 +168,7 @@ namespace IAmSpeed.Controllers
                 _context.Add(createSegment.Segment);
                 await _context.SaveChangesAsync();
                 //return RedirectToAction(nameof(Index));
-                var setOrgin = _context.Segments
+                var setOrgin = _context.Segments;
 
                 return Redirect($"http://localhost:5000/MySegment/Index/{gameSegment.Game.Id}");
 
@@ -291,9 +270,6 @@ namespace IAmSpeed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            //var segment = await _context.Segments.FindAsync(id);
-            //_context.Segments.Remove(segment);
-            //await _context.SaveChangesAsync();
 
             var game = await _context.Games.FindAsync(id);
             _context.Games.Remove(game);

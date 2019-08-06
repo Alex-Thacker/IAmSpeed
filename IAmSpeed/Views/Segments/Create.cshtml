@@ -55,6 +55,7 @@
                 <input asp-for="Segment.Category" class="form-control" />
                 <span asp-validation-for="Segment.Category" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="@Model.Game.GameIdFromAPI" class="form-control" />
 
   
             <div class="form-group">
