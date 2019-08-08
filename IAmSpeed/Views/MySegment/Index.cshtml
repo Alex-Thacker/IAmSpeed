@@ -1,0 +1,88 @@
+﻿@*My Segments*@
+
+@*See Segments based on games, you choose game form previous page. base on Index from MySegment controller, uses game id to filter*@
+
+@model IAmSpeed.Models.GameViewModels.GameSegmentViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Segments for @Model.Game.Name</h2>
+<img src="@Model.Game.Picture" />
+<div>
+<a asp-action="Create" asp-controller="Segments" asp-for="@Model.Game.Name" asp-route-id="@Model.Game.GameIdFromAPI">Create New Segment</a>
+    </div>
+<table class="table">
+@if(Model.segmentsList.Count() != 0)
+{
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Segment.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Segment.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Segment.VideoLink)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Segment.Notes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Segment.PBTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Segment.RNG)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Segment.Category)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+
+}
+    <tbody>
+@foreach (var item in Model.segmentsList) {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VideoLink)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PBTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RNG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+        @if(Model.segmentsList.Count() == 0)
+        {
+            <h4>No Segments were created yet</h4>
+        }
+    </tbody>
+</table>
+            

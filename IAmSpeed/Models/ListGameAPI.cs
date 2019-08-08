@@ -1,20 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace IAmSpeed.Models
 {
 
-    public class Rootobject
+    public class ListGameBase
     {
         public Datum[] data { get; set; }
         public Pagination pagination { get; set; }
+        public List<Game> games { get; set; } = new List<Game>();
+        public ApplicationUser User { get; set;  }
+    }
+
+    public class SingleGameBase
+    {
+        public Datum data { get; set; }
     }
 
     public class Pagination
     {
         public int offset { get; set; }
+        public int offsetPlus
+        {
+            get
+            {
+                return offset + 1;
+            }
+        }
         public int max { get; set; }
         public int size { get; set; }
         public Link[] links { get; set; }
@@ -25,7 +40,7 @@ namespace IAmSpeed.Models
         public string rel { get; set; }
         public string uri { get; set; }
     }
-
+    //[DataContract]
     public class Datum
     {
         public string id { get; set; }
@@ -33,6 +48,7 @@ namespace IAmSpeed.Models
         public string abbreviation { get; set; }
         public string weblink { get; set; }
         public int released { get; set; }
+        //[DataMember(Name = "release-date")]
         public string releasedate { get; set; }
         public Ruleset ruleset { get; set; }
         public bool romhack { get; set; }
@@ -141,13 +157,17 @@ namespace IAmSpeed.Models
         public string _1xy5mzz8 { get; set; }
         public string pj061l4j { get; set; }
     }
-
+    [DataContract]
     public class Assets
     {
         public Logo logo { get; set; }
+        [DataMember(Name = "cover-tiny")]
         public CoverTiny covertiny { get; set; }
+        [DataMember(Name = "cover-small")]
         public CoverSmall coversmall { get; set; }
+        [DataMember(Name = "cover-medium")]
         public CoverMedium covermedium { get; set; }
+        [DataMember(Name = "cover-large")]
         public CoverLarge coverlarge { get; set; }
         public Icon icon { get; set; }
         public Trophy1St trophy1st { get; set; }

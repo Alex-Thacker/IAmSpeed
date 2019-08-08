@@ -4,14 +4,16 @@ using IAmSpeed.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IAmSpeed.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190731143727_update-properties")]
+    partial class updateproperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,7 +84,7 @@ namespace IAmSpeed.Data.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f2757609-25fe-4fcb-96b2-cc007ea4ad63",
+                            ConcurrencyStamp = "8a2a1f28-0556-4cca-8fcb-3c5238bbe422",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "admin",
@@ -90,7 +92,7 @@ namespace IAmSpeed.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAELolGwoAwvpsH+ak/ey/tccQ8zS852zfeDSVx+CaCFdLQ7xHnsy07NPWGmDPA/blag==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENexIXUD2WJiFKXisAh12MZ5N/dAFWcoqrzMjPrvf3SaA1guluNkASfUeoEdGsWxXA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -123,7 +125,7 @@ namespace IAmSpeed.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("GameIdFromAPI");
+                    b.Property<int>("GameIdFromAPI");
 
                     b.Property<string>("Name");
 

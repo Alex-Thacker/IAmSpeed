@@ -8,7 +8,8 @@ namespace IAmSpeed.Models
 {
     public class TestClass
     {
-        public static async Task<Rootobject> LoadData (string gameName)
+        //public string url { get; set;  }
+        public static async Task<ListGameBase> LoadData (string url)
         {
             //string[] splitGameName = gameName.Split(" ");
             //var percent = ""; 
@@ -16,16 +17,78 @@ namespace IAmSpeed.Models
             //{
             //    percent += sgn + "%20"; 
             //}
-            string url = "";
-             url = $"https://www.speedrun.com/api/v1/games?name={gameName}";
+            //string url = "";
+
+            //url = $"https://www.speedrun.com/api/v1/games?name={gameName}";
 
             using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    Rootobject rootobject = await response.Content.ReadAsAsync<Rootobject>();
+                    ListGameBase rootobject = await response.Content.ReadAsAsync<ListGameBase>();
 
                     return rootobject; 
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public static async Task<SingleGameBase> LoadSingleData(string url)
+        {
+            //string[] splitGameName = gameName.Split(" ");
+            //var percent = ""; 
+            //foreach(var sgn in splitGameName)
+            //{
+            //    percent += sgn + "%20"; 
+            //}
+            //string url = "";
+
+            //url = $"https://www.speedrun.com/api/v1/games?name={gameName}";
+
+            using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    SingleGameBase rootobject = await response.Content.ReadAsAsync<SingleGameBase>();
+
+                    return rootobject;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public static async Task<CategoriesBase> GetCategories(string url)
+        {
+            using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    CategoriesBase rootobject = await response.Content.ReadAsAsync<CategoriesBase>();
+
+                    return rootobject;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public static async Task<LeaderBase> GetRecords(string url)
+        {
+            using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    LeaderBase rootobject = await response.Content.ReadAsAsync<LeaderBase>();
+
+                    return rootobject;
                 }
                 else
                 {

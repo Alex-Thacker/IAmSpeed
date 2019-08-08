@@ -1,0 +1,74 @@
+﻿@*INDEX FOR LEADERBOARD*@
+
+@model IAmSpeed.Models.ListGameBase
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h1>Search for Game</h1>
+<form asp-action="Index" method="get">
+    <input type="text" name="gameName" value="@ViewData["gameName"]" />
+    <input type="submit" value="Search" class="btn btn-default" />
+</form>
+
+
+@if (Model != null)
+{
+
+
+    @*<p> @Html.DisplayFor(model => model.names.international) </p> *@
+
+
+<ol start=@Model.pagination.offsetPlus>
+    @foreach (var item in Model.data)
+    {
+        <li>@Html.DisplayFor(model => item.names.international)</li>
+
+        <div>
+            Release Date: @item.released
+        </div>
+
+        <img src="@item.assets.coversmall.uri" />
+
+        <div>
+        <a asp-action="Create" asp-for="@item.names.international" asp-route-id="@item.id">View Categories</a>
+            </div>
+
+        <hr />
+
+        @*<a asp-action="Create" asp-for="@item.names.international" asp-route-id="@item.id">Use This Game  |</a>
+            <a asp-action="Details" asp-controller="Segments" asp-route-id="@item.id">Details</a>*@
+
+    }
+</ol>
+
+
+
+
+
+    @foreach (var item in Model.pagination.links)
+    {
+        <form asp-action="Index" method="get">
+            @*<input type="submit" value=@Html.DisplayFor(model => item.rel) class="btn btn-default" />*@
+            <input type="hidden" name="offset" value="@Html.DisplayFor(model => item.uri)">
+            <input type="submit" value="@Html.DisplayFor(model => item.rel)" class="btn btn-default">
+        </form>
+    }
+
+
+    @*<form asp-action="Create" asp-controller="Segments">
+        @foreach (var item in Model.data)
+        {
+            @Html.Hidden("id", item.id)
+            @Html.Hidden("Name", item.names.international)
+            @Html.Hidden("Picture", item.assets.covermedium)
+            @Html.Hidden("ReleaseDate", item.released)
+        }
+    </form>
+
+    <form asp-action="Create">
+        <input type="hidden" asp-for="@Model.data" />
+        </form>*@
+}
