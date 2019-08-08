@@ -1,7 +1,6 @@
 ﻿@*INDEX FOR SEGMENTS*@
 
 @model IAmSpeed.Models.ListGameBase
-
 @*Page lists games you currently saved, lets you search for new games. based on Segments controller*@
 
 @{
@@ -12,7 +11,7 @@
 <h1>Search for a new Game to run</h1>
 <form asp-action="Index" method="get">
     <input type="text" name="gameName" value="@ViewData["gameName"]" />
-    <input type="submit" value="Search" class="btn btn-default" />
+    <input type="submit" value="Search" class="btn btn-primary" />
 </form>
 <hr />
 
@@ -20,27 +19,32 @@
 {
     <h1>Games you used before</h1>
 
+        <div class="flexContainer">
     @foreach (var item in Model.games)
     {
+            <div class="card cardCss">
+                <div class="card-body">
+                    <h4>@item.Name</h4>
+                    <div>
+                        Release Date: @item.ReleaseDate
+                    </div>
+                    <img class="card-img-top" src="@item.Picture" />
 
-        <h4>@item.Name</h4>
-        <div>
-            Release Date: @item.ReleaseDate
-        </div>
-        <img src="@item.Picture" />
 
+                    <div>
+                        <a asp-action="Create" asp-controller="Segments" asp-for="@item.Name" asp-route-id="@item.GameIdFromAPI">Create New Segment</a>
+                    </div>
+                    <div>
+                        <a asp-action="Index" asp-controller="MySegment" asp-route-id="@item.Id">View Current Segments</a>
+                    </div>
+                    <div>
+                        <a asp-action="Delete" asp-controller="Segments" asp-for="@item.Name" asp-route-id="@item.Id">Remove Game</a>
+                    </div>
+                </div>
+            </div>
 
-        <div>
-            <a asp-action="Create" asp-controller="Segments" asp-for="@item.Name" asp-route-id="@item.GameIdFromAPI">Create New Segment</a>
-        </div>
-        <div>
-            <a asp-action="Index" asp-controller="MySegment" asp-route-id="@item.Id">View Current Segments</a>
-        </div>
-        <div>
-            <a asp-action="Delete" asp-controller="Segments" asp-for="@item.Name" asp-route-id="@item.Id">Remove Game</a>
-        </div>
-        <hr />
     }
+        </div>
 }
 
 
@@ -69,7 +73,7 @@
     {
         <form asp-action="Index" method="get">
             <input type="hidden" name="offset" value="@Html.DisplayFor(model => item.uri)">
-            <input type="submit" value="@Html.DisplayFor(model => item.rel)" class="btn btn-default">
+            <input type="submit" value="@Html.DisplayFor(model => item.rel)" class="btn btn-primary">
         </form>
     }
 }
