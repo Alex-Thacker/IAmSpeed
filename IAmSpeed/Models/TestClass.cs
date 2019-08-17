@@ -8,18 +8,10 @@ namespace IAmSpeed.Models
 {
     public class TestClass
     {
-        //public string url { get; set;  }
+       
         public static async Task<ListGameBase> LoadData (string url)
         {
-            //string[] splitGameName = gameName.Split(" ");
-            //var percent = ""; 
-            //foreach(var sgn in splitGameName)
-            //{
-            //    percent += sgn + "%20"; 
-            //}
-            //string url = "";
-
-            //url = $"https://www.speedrun.com/api/v1/games?name={gameName}";
+           
 
             using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
             {
@@ -87,6 +79,23 @@ namespace IAmSpeed.Models
                 if (response.IsSuccessStatusCode)
                 {
                     LeaderBase rootobject = await response.Content.ReadAsAsync<LeaderBase>();
+
+                    return rootobject;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public static async Task<SinglePlayerBase> GetUserInfo(string url)
+        {
+            using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    SinglePlayerBase rootobject = await response.Content.ReadAsAsync<SinglePlayerBase>();
 
                     return rootobject;
                 }

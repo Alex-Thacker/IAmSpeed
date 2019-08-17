@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using IAmSpeed.Data;
 using IAmSpeed.Models;
 using IAmSpeed.Models.GameViewModels;
+using IAmSpeed.Models.LeaderUserViewModels;
 
 namespace IAmSpeed.Controllers
 {
@@ -49,8 +50,22 @@ namespace IAmSpeed.Controllers
         // GET: LeaderRuns/Details/5
         public async Task<IActionResult> Details(string id)
         {
+            //LeaderUserView leaderUserView = new LeaderUserView();
+
             var url = $"https://www.speedrun.com/api/v1/categories/{id}/records?top=10";
             var records = await TestClass.GetRecords(url);
+
+            //leaderUserView.leaderBase = records;
+
+            //foreach(var u in records.data)
+            //{
+            //    foreach(var p in u.runs)
+            //    {
+            //        var userUrl = p.run.players.First().uri;
+            //        var playerInfo = await TestClass.GetUserInfo(userUrl);
+            //        leaderUserView.singlePlayerList.Add(playerInfo);
+            //    }
+            //}
 
             return View(records);
         }
