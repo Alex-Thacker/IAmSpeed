@@ -5,43 +5,36 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Find Segments</h1>
+
 
 <form asp-action="Index" method="get">
     <input type="text" name="gameName" value="@ViewData["gameName"]" />
-    <input type="submit" value="Search" class="btn btn-default" />
+    <input type="submit" value="Search" class="btn btn-primary" />
+    <p>-Search For New Game</p>
 </form>
-
+<hr />
 
 @if (Model.games.Count != 0)
 {
-    <h1>Your common Games</h1>
-
-    @foreach (var item in Model.games)
-    {
-
-        <h4>@item.Name</h4>
-        <div>
-            Release Date: @item.ReleaseDate
-        </div>
-        <img src="@item.Picture" />
-
-        @*
-            <div>
-                <a asp-action="Create" asp-controller="Segments" asp-for="@item.Name" asp-route-id="@item.GameIdFromAPI">Create New Segment</a>
+    <h1>Find Segments</h1>
+    <div class="flexContainer">
+        @foreach (var item in Model.games)
+        {
+            <div class="card cardCss">
+                <div class="card-body">
+                    <h4>@item.Name</h4>
+                    <div>
+                        Release Date: @item.ReleaseDate
+                    </div>
+                    <img class="card-img-top imgUsed" src="@item.Picture" />
+                    <div>
+                        <a asp-action="ShowSegments" asp-controller="FindSegment" asp-for="@item.GameIdFromAPI" asp-route-GameIdFromAPI="@item.GameIdFromAPI">Show Segments</a>
+                    </div>
+                </div>
             </div>
-            <div>
-                <a asp-action="Index" asp-controller="MySegment" asp-route-id="@item.Id">View Current Segments</a>
-            </div>
-            <div>
-                <a asp-action="Delete" asp-controller="Segments" asp-for="@item.Name" asp-route-id="@item.Id">Remove Game</a>
-            </div>
-        *@
-        <div>
-            <a asp-action="ShowSegments"  asp-controller="FindSegment" asp-for="@item.GameIdFromAPI" asp-route-GameIdFromAPI="@item.GameIdFromAPI">Show Segments</a>
-        </div>
-        <hr />
-    }
+            <hr />
+        }
+    </div>
 }
 
 
@@ -67,12 +60,13 @@
 
 
 
-
-    @foreach (var item in Model.pagination.links)
-    {
-        <form asp-action="Index" method="get">
-            <input type="hidden" name="offset" value="@Html.DisplayFor(model => item.uri)">
-            <input type="submit" value="@Html.DisplayFor(model => item.rel)" class="btn btn-default">
-        </form>
-    }
+    <div class="pagination">
+        @foreach (var item in Model.pagination.links)
+        {
+            <form asp-action="Index" method="get">
+                <input type="hidden" name="offset" value="@Html.DisplayFor(model => item.uri)">
+                <input type="submit" value="@Html.DisplayFor(model => item.rel)" class="btn btn-primary">
+            </form>
+        }
+    </div>
 }

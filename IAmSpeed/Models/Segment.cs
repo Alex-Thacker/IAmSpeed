@@ -17,7 +17,7 @@ namespace IAmSpeed.Models
         public string Notes { get; set;  }
         [Display(Name = "Personal Best Time")]
         public string PBTime { get; set; }
-        [Display(Name = "Random Number Generator (RNG)")]
+        
         public string RNG { get; set; }
         public string Category { get; set; }
         public string UserId { get; set;  }

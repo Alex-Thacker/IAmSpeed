@@ -13,7 +13,7 @@
 <div>
 <a asp-action="Create" asp-controller="Segments" asp-for="@Model.Game.Name" asp-route-id="@Model.Game.GameIdFromAPI">Create New Segment</a>
     </div>
-<table class="table">
+<table class="table table-striped">
 @if(Model.segmentsList.Count() != 0)
 {
     <thead>
@@ -73,9 +73,15 @@
             </td>
             
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <div>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    </div>
+                <div>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </div>
+                <div>
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </div>
             </td>
         </tr>
 }
