@@ -1,6 +1,7 @@
 # Welcome to IAmSpeed!!
 
-App for speedrunners.  Speedrunning is playing a video game with the intention to beat is as fast as possible
+App for speedrunners.  Speedrunning is playing a video game with the intention to beat is as fast as possible. This app lets you add games to your profile and create segments in the game to organize your stratigies.  Also allows you to see other User segments and clone them into your profile.  Beta version of Leaderboard included as well
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
